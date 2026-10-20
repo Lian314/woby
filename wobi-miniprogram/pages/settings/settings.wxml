@@ -1,0 +1,99 @@
+<view class="page">
+  <view class="intro">
+    <view class="intro-title">填自己的接口</view>
+    <view class="intro-sub">卧笔不提供模型服务。填入任何兼容 OpenAI Chat Completions 的 Base URL、模型和 API Key；请求会从小程序直接发给你填的服务商，Key 只保存在这台手机本地。</view>
+  </view>
+
+  <view class="section">
+    <view class="field">
+      <view class="label">Base URL</view>
+      <input
+        class="text-input"
+        value="{{baseURL}}"
+        data-field="baseURL"
+        bindinput="onInput"
+        placeholder="https://你的接口地址/v1"
+        placeholder-class="placeholder"
+      />
+      <view class="hint">默认必须 HTTPS；开启下面的“允许 HTTP”后才可以填 http://（仅开发调试）。</view>
+    </view>
+
+    <view class="field">
+      <view class="label">模型</view>
+      <input
+        class="text-input"
+        value="{{model}}"
+        data-field="model"
+        bindinput="onInput"
+        placeholder="例如 glm-4v-flash"
+        placeholder-class="placeholder"
+      />
+      <view class="hint">要发图片，请选支持视觉的模型。</view>
+    </view>
+
+    <view class="field">
+      <view class="label">API Key</view>
+      <view class="key-row">
+        <input
+          class="text-input key-input"
+          password="{{!showKey}}"
+          value="{{apiKey}}"
+          data-field="apiKey"
+          bindinput="onInput"
+          placeholder="sk-..."
+          placeholder-class="placeholder"
+        />
+        <view class="eye" bindtap="toggleKey" hover-class="tap-hover">{{showKey ? '隐藏' : '显示'}}</view>
+      </view>
+      <view class="hint">Key 只保存在本机；请不要在共用手机上保存敏感 Key，建议使用低额度、可撤销的 Key。</view>
+    </view>
+
+    <view class="switch-row">
+      <view class="switch-copy">
+        <view class="switch-title">允许 HTTP（仅开发调试）</view>
+        <view class="switch-sub">用于本地/真机调试；体验版和正式版仍然必须 HTTPS</view>
+      </view>
+      <switch checked="{{allowHTTP}}" color="#a63a2b" bindchange="onAllowHTTPChange" />
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="field">
+      <view class="label">系统提示词</view>
+      <textarea
+        class="prompt-input"
+        value="{{systemPrompt}}"
+        bindinput="onSystemPromptInput"
+        maxlength="1000"
+        auto-height="{{true}}"
+        placeholder-class="placeholder"
+      ></textarea>
+    </view>
+
+    <view class="switch-row">
+      <view class="switch-copy">
+        <view class="switch-title">流式输出</view>
+        <view class="switch-sub">逐字显示；如果接口不支持，关掉它</view>
+      </view>
+      <switch checked="{{streaming}}" color="#2e6b5e" bindchange="onStreamingChange" />
+    </view>
+
+    <view class="switch-row">
+      <view class="switch-copy">
+        <view class="switch-title">图片以 Data URL 发送</view>
+        <view class="switch-sub">图片失败时，关掉它改用纯 Base64</view>
+      </view>
+      <switch checked="{{imageDataURL}}" color="#2e6b5e" bindchange="onImageDataURLChange" />
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">其他</view>
+    <view class="link-row" bindtap="resetPrompt" hover-class="tap-hover">恢复默认系统提示词</view>
+    <view class="about">卧笔小程序预览版 · {{version}}</view>
+    <view class="about">聊天记录只在本次打开期间保留，不写入本地存储。</view>
+  </view>
+
+  <button class="save-btn" bindtap="save" hover-class="save-hover">保存</button>
+  <view class="bottom-space"></view>
+</view>

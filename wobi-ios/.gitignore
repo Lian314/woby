@@ -1,0 +1,23 @@
+# macOS / Xcode
+.DS_Store
+build/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.ipa
+*.dSYM.zip
+*.dSYM/
+*.xcarchive
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Python
+__pycache__/
+*.pyc
+
+# 编辑器
+.vscode/
+.idea/

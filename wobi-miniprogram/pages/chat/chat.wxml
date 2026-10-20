@@ -1,0 +1,136 @@
+<view class="page">
+  <view class="topbar">
+    <view class="brand-row">
+      <view class="brand-mark-sm">卧</view>
+      <text class="brand-name">卧笔</text>
+    </view>
+    <view class="top-actions">
+      <view class="model-pill" bindtap="goSettings" hover-class="tap-hover">
+        <text class="model-name">{{modelLabel}}</text>
+        <text class="model-arrow">›</text>
+      </view>
+      <view class="new-btn" bindtap="newChat" hover-class="tap-hover">新对话</view>
+    </view>
+  </view>
+
+  <scroll-view
+    class="messages"
+    scroll-y
+    scroll-into-view="{{scrollInto}}"
+    scroll-with-animation="{{true}}"
+    enhanced="{{true}}"
+    show-scrollbar="{{false}}"
+  >
+    <view class="messages-inner">
+      <view wx:if="{{!messages.length}}" class="empty">
+        <view class="empty-mark">
+          卧
+          <view class="seal-dot"></view>
+        </view>
+        <view class="empty-title">卧笔</view>
+        <view class="empty-sub">极简 AI 对话 · 支持看图</view>
+        <view class="empty-sub">接口和 Key 由你自己配置</view>
+
+        <view wx:if="{{!configured}}" class="setup-btn" bindtap="goSettings" hover-class="tap-hover">
+          去设置接口
+        </view>
+
+        <view class="suggestions">
+          <view
+            wx:for="{{suggestions}}"
+            wx:key="*this"
+            class="suggestion"
+            data-text="{{item}}"
+            bindtap="useSuggestion"
+            hover-class="suggestion-hover"
+          >
+            <text class="suggestion-text">{{item}}</text>
+            <text class="suggestion-arrow">↗</text>
+          </view>
+        </view>
+      </view>
+
+      <block wx:for="{{messages}}" wx:key="id">
+        <view class="row {{item.role}}" id="msg-{{item.id}}">
+          <view class="bubble-wrap">
+            <view wx:if="{{item.images.length}}" class="message-images">
+              <image
+                wx:for="{{item.images}}"
+                wx:for-item="img"
+                wx:for-index="imgIndex"
+                wx:key="id"
+                class="message-image"
+                src="{{img.path}}"
+                mode="aspectFill"
+                data-src="{{img.path}}"
+                bindtap="previewImage"
+              />
+            </view>
+
+            <view wx:if="{{item.waiting}}" class="bubble assistant waiting">
+              <view class="dot"></view>
+              <view class="dot dot-2"></view>
+              <view class="dot dot-3"></view>
+            </view>
+
+            <view
+              wx:elif="{{item.text}}"
+              class="bubble {{item.role}} {{item.error ? 'error' : ''}}"
+              data-index="{{index}}"
+              bindlongpress="copyMessage"
+            >
+              <text class="bubble-text" user-select="{{true}}">{{item.text}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <view id="bottom" class="bottom-anchor"></view>
+    </view>
+  </scroll-view>
+
+  <view class="composer">
+    <scroll-view
+      wx:if="{{pendingImages.length}}"
+      class="pending"
+      scroll-x
+      enhanced="{{true}}"
+      show-scrollbar="{{false}}"
+      enable-flex="{{true}}"
+    >
+      <view class="pending-inner">
+        <view wx:for="{{pendingImages}}" wx:key="id" class="pending-item">
+          <image class="pending-image" src="{{item.path}}" mode="aspectFill" />
+          <view class="remove" data-index="{{index}}" catchtap="removeImage">×</view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="composer-row">
+      <view class="photo-btn" bindtap="chooseImages" hover-class="tap-hover">图</view>
+      <textarea
+        class="input"
+        value="{{draft}}"
+        placeholder="发消息，或点「图」选照片…"
+        placeholder-class="input-placeholder"
+        auto-height="{{true}}"
+        maxlength="2000"
+        cursor-spacing="20"
+        adjust-position="{{true}}"
+        show-confirm-bar="{{false}}"
+        confirm-type="send"
+        bindinput="onInput"
+        bindconfirm="send"
+        focus="{{inputFocus}}"
+        disabled="{{sending}}"
+      ></textarea>
+      <view
+        class="send-btn {{sending ? 'stop' : ''}} {{canSend ? 'active' : ''}}"
+        bindtap="onSendOrStop"
+        hover-class="tap-hover"
+      >
+        {{sending ? '停止' : '发送'}}
+      </view>
+    </view>
+  </view>
+</view>

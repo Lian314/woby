@@ -1,0 +1,19 @@
+{
+  "pages": [
+    "pages/chat/chat",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#f4ede0",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "卧笔",
+    "backgroundColor": "#f4ede0",
+    "backgroundTextStyle": "dark"
+  },
+  "networkTimeout": {
+    "request": 60000
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,29 @@
+# 内部交接资料，含服务器/账号信息，不公开
+原始项目交付文档/
+
+# 旧打包产物
+wobi-ios.zip
+
+# 小程序本地私有配置
+wobi-miniprogram/project.private.config.json
+
+# macOS / Xcode
+.DS_Store
+**/build/
+**/DerivedData/
+**/xcuserdata/
+**/*.xcuserstate
+**/*.xcscmblueprint
+**/*.xcarchive
+**/*.ipa
+**/*.dSYM
+**/*.dSYM.zip
+
+# Python
+**/__pycache__/
+*.pyc
+
+# 编辑器
+.vscode/
+.idea/
+*.log
